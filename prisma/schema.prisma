@@ -1,0 +1,44 @@
+// prisma/schema.prisma
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // Uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // Uses a direct connection
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id
+  email     String   @unique
+  parties   Party[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Party {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  date        DateTime
+  location    String?
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  guests      Guest[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Guest {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  status    String   @default("PENDING") // PENDING, ACCEPTED, DECLINED
+  partyId   String
+  party     Party    @relation(fields: [partyId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([email, partyId])
+}

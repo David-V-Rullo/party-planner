@@ -1,8 +1,8 @@
-// src/lib/theme/ThemeContext.tsx
 "use client";
 import { createContext, useMemo, useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import { lightPalette, darkPalette } from "./palette";
 
 export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
@@ -25,8 +25,19 @@ export function ThemeContextProvider({
   const theme = useMemo(
     () =>
       createTheme({
-        palette: {
-          mode,
+        palette: mode === "light" ? lightPalette : darkPalette,
+        typography: {
+          fontFamily: "var(--font-geist)",
+        },
+        components: {
+          MuiButton: {
+            styleOverrides: {
+              root: {
+                textTransform: "none",
+                borderRadius: "8px",
+              },
+            },
+          },
         },
       }),
     [mode]
