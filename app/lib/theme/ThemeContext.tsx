@@ -1,54 +1,43 @@
 // src/lib/theme/ThemeContext.tsx
 "use client";
-
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
+import { createContext, useMemo, useState } from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { lightTheme, darkTheme } from "./theme";
 
-type ThemeMode = "light" | "dark";
+export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
-interface ThemeContextType {
-  mode: ThemeMode;
-  toggleTheme: () => void;
-}
+export function ThemeContextProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [mode, setMode] = useState<"light" | "dark">("light");
 
-const ThemeContext = createContext<ThemeContextType>({
-  mode: "light",
-  toggleTheme: () => {},
-});
-
-export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [mode, setMode] = useState<ThemeMode>("light");
-
-  useEffect(() => {
-    const savedMode = localStorage.getItem("themeMode") as ThemeMode;
-    if (savedMode) {
-      setMode(savedMode);
-    } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setMode("dark");
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    const newMode = mode === "light" ? "dark" : "light";
-    setMode(newMode);
-    localStorage.setItem("themeMode", newMode);
-  };
+  const colorMode = useMemo(
+    () => ({
+      toggleColorMode: () => {
+        setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+      },
+    }),
+    []
+  );
 
   const theme = useMemo(
-    () => (mode === "light" ? lightTheme : darkTheme),
+    () =>
+      createTheme({
+        palette: {
+          mode,
+        },
+      }),
     [mode]
   );
 
   return (
-    <ThemeContext.Provider value={{ mode, toggleTheme }}>
-      <MuiThemeProvider theme={theme}>
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
         <CssBaseline />
         {children}
-      </MuiThemeProvider>
-    </ThemeContext.Provider>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   );
-};
-
-export const useTheme = () => useContext(ThemeContext);
+}
