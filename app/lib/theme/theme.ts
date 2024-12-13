@@ -1,4 +1,5 @@
 // src/lib/theme/theme.ts
+"use client";
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 import { lightPalette, darkPalette } from "./palette";
 

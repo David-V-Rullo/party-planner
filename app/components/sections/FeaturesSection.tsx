@@ -13,7 +13,7 @@ import { FeatureCard } from "./FeatureCard";
 //     title: "Guest Management",
 //     description: "Easily track RSVPs and communicate with your guests",
 //   },
-//   // ... other features
+//
 // ];
 
 export function FeaturesSection() {
