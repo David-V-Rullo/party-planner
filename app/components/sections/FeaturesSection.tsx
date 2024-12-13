@@ -1,4 +1,4 @@
-import { Box, Container, Grid } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { FeatureCard } from "./FeatureCard";
 
 const features = [
