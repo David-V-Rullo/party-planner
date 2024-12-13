@@ -1,5 +1,6 @@
 // src/lib/theme/ThemeContext.tsx
 "use client";
+
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";

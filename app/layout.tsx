@@ -1,22 +1,23 @@
 // app/layout.tsx
 import type { Metadata } from "next";
+import { Geist } from "next/font/google";
 import { Providers } from "./providers";
-import { Geist, Geist_Mono } from "next/font/google";
+
 import "./globals.css";
+import { Header } from "./components/layouts/Header";
+import { Footer } from "./components/layouts/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const geist = Geist({
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-geist",
 });
 
 export const metadata: Metadata = {
-  title: "Party Planner",
-  description: "Plan your perfect party",
+  title: {
+    default: "Party Planner",
+    template: "%s | Party Planner",
+  },
+  description: "Plan your perfect party with ease",
 };
 
 export default function RootLayout({
@@ -25,11 +26,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geist.variable} antialiased min-h-screen flex flex-col`}
       >
-        <Providers>{children}</Providers>
+        <Providers>
+          <Header />
+          <main className="flex-grow">{children}</main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
