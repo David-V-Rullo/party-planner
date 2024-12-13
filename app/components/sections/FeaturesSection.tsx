@@ -1,20 +1,20 @@
 import { Box, Container } from "@mui/material";
 import { FeatureCard } from "./FeatureCard";
 
-const features = [
-  {
-    icon: "CalendarMonth",
-    title: "Event Planning",
-    description:
-      "Create and manage multiple events with our intuitive planning tools",
-  },
-  {
-    icon: "People",
-    title: "Guest Management",
-    description: "Easily track RSVPs and communicate with your guests",
-  },
-  // ... other features
-];
+// const features = [
+//   {
+//     icon: "CalendarMonth",
+//     title: "Event Planning",
+//     description:
+//       "Create and manage multiple events with our intuitive planning tools",
+//   },
+//   {
+//     icon: "People",
+//     title: "Guest Management",
+//     description: "Easily track RSVPs and communicate with your guests",
+//   },
+//   // ... other features
+// ];
 
 export function FeaturesSection() {
   return (
